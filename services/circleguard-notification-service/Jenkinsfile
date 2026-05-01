@@ -32,6 +32,10 @@ pipeline {
 
         stage('Deploy to K8s') {
             steps {
+                // Ajustar kubeconfig para que use la IP interna del host en lugar de localhost
+                sh "mkdir -p ~/.kube && cp /root/.kube/config ~/.kube/config"
+                sh "sed -i 's/127.0.0.1/host.docker.internal/g' ~/.kube/config"
+                
                 sh "kubectl apply -f k8s/dev/all-services.yaml -n $NAMESPACE"
                 sh "kubectl rollout restart deployment/$SERVICE_NAME -n $NAMESPACE"
             }
