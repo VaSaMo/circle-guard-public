@@ -36,8 +36,9 @@ pipeline {
                 sh "sed -i 's/127.0.0.1/host.docker.internal/g' /tmp/kubeconfig"
                 
                 withEnv(["KUBECONFIG=/tmp/kubeconfig"]) {
-                    sh "kubectl apply -f k8s/dev/all-services.yaml -n $NAMESPACE"
-                    sh "kubectl rollout restart deployment/$SERVICE_NAME -n $NAMESPACE"
+                    // Agregamos --insecure-skip-tls-verify para evitar el error de nombre de certificado
+                    sh "kubectl apply -f k8s/dev/all-services.yaml -n $NAMESPACE --insecure-skip-tls-verify"
+                    sh "kubectl rollout restart deployment/$SERVICE_NAME -n $NAMESPACE --insecure-skip-tls-verify"
                 }
             }
         }
