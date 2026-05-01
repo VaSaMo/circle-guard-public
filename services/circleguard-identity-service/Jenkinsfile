@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+
+    environment {
+        SERVICE_NAME = "identity-service"
+        NAMESPACE = "taller2-dev"
+        IMAGE_NAME = "$SERVICE_NAME:latest"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                dir("services/circleguard-$SERVICE_NAME") {
+                    sh '../../gradlew clean build'
+                }
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                dir("services/circleguard-$SERVICE_NAME") {
+                    sh "docker build -t $IMAGE_NAME ."
+                }
+            }
+        }
+
+        stage('Deploy to K8s') {
+            steps {
+                sh "kubectl apply -f k8s/dev/all-services.yaml -n $NAMESPACE"
+                sh "kubectl rollout restart deployment/$SERVICE_NAME -n $NAMESPACE"
+            }
+        }
+    }
+}

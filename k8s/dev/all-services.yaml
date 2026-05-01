@@ -1,0 +1,212 @@
+# circleguard-gateway-service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-service
+  namespace: taller2-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway-service
+  template:
+    metadata:
+      labels:
+        app: gateway-service
+    spec:
+      containers:
+      - name: gateway-service
+        image: gateway-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8087
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-service
+  namespace: taller2-dev
+spec:
+  selector:
+    app: gateway-service
+  ports:
+  - port: 8087
+    targetPort: 8087
+---
+# circleguard-auth-service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+  namespace: taller2-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      containers:
+      - name: auth-service
+        image: auth-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8180
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+  namespace: taller2-dev
+spec:
+  selector:
+    app: auth-service
+  ports:
+  - port: 8180
+    targetPort: 8180
+---
+# circleguard-identity-service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identity-service
+  namespace: taller2-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: identity-service
+  template:
+    metadata:
+      labels:
+        app: identity-service
+    spec:
+      containers:
+      - name: identity-service
+        image: identity-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8083
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres:5432/circleguard_identity
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: identity-service
+  namespace: taller2-dev
+spec:
+  selector:
+    app: identity-service
+  ports:
+  - port: 8083
+    targetPort: 8083
+---
+# circleguard-promotion-service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: promotion-service
+  namespace: taller2-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: promotion-service
+  template:
+    metadata:
+      labels:
+        app: promotion-service
+    spec:
+      containers:
+      - name: promotion-service
+        image: promotion-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8088
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: promotion-service
+  namespace: taller2-dev
+spec:
+  selector:
+    app: promotion-service
+  ports:
+  - port: 8088
+    targetPort: 8088
+---
+# circleguard-notification-service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-service
+  namespace: taller2-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification-service
+  template:
+    metadata:
+      labels:
+        app: notification-service
+    spec:
+      containers:
+      - name: notification-service
+        image: notification-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8082
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-service
+  namespace: taller2-dev
+spec:
+  selector:
+    app: notification-service
+  ports:
+  - port: 8082
+    targetPort: 8082
+---
+# circleguard-form-service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: form-service
+  namespace: taller2-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: form-service
+  template:
+    metadata:
+      labels:
+        app: form-service
+    spec:
+      containers:
+      - name: form-service
+        image: form-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8086
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: form-service
+  namespace: taller2-dev
+spec:
+  selector:
+    app: form-service
+  ports:
+  - port: 8086
+    targetPort: 8086

@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  jenkins:
+    build: .
+    container_name: jenkins-taller
+    privileged: true
+    user: root
+    ports:
+      - "8081:8080"
+      - "50001:50000"
+    volumes:
+      - jenkins_data:/var/jenkins_home
+      # Montar el socket de Docker para que Jenkins pueda construir imágenes
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Montar las credenciales de K8s locales (ajustar si es necesario)
+      - ~/.kube:/root/.kube:ro
+      # Montar la carpeta del proyecto para que Jenkins la vea
+      - /Users/vasamo/circle-guard-public:/Users/vasamo/circle-guard-public
+volumes:
+  jenkins_data:
