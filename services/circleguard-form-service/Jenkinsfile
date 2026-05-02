@@ -19,7 +19,7 @@ pipeline {
         stage('Build') {
             steps {
                 dir("services/circleguard-$SERVICE_NAME") {
-                    sh '../../gradlew clean build'
+                    sh "../../gradlew clean build -Dtestcontainers.docker.host=$DOCKER_HOST"
                 }
             }
         }
