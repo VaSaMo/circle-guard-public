@@ -30,3 +30,18 @@ dependencies {
     testImplementation("org.testcontainers:postgresql:1.19.3")
     testImplementation("org.testcontainers:neo4j:1.19.3")
 }
+// Bloque añadido para inyectar variables de entorno de Jenkins a los tests
+tasks.withType<Test> {
+    useJUnitPlatform()
+    
+    // Inyecta el socket de Docker a la JVM de los tests
+    environment("DOCKER_HOST", "unix:///var/run/docker.sock")
+    // Desactiva validaciones problemáticas en entornos CI/CD (Docker-in-Docker)
+    environment("TESTCONTAINERS_RYUK_DISABLED", "true")
+    environment("TESTCONTAINERS_CHECKS_DISABLE", "true")
+    
+    // (Opcional) Hace que los logs de los tests sean más detallados en la consola de Jenkins
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+}
