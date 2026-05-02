@@ -22,7 +22,7 @@ pipeline {
             steps {
                 dir("services/circleguard-$SERVICE_NAME") {
                     // --no-daemon es CRÍTICO aquí para que lea las variables frescas
-                    sh "../../gradlew clean build --no-daemon" 
+                    sh "../../gradlew clean build -Dtestcontainers.docker.host=$DOCKER_HOST"
                 }
             }
         }
