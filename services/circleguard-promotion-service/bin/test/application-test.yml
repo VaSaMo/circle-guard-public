@@ -12,3 +12,6 @@ spring:
     authentication:
       username: neo4j
       password: password
+
+jwt:
+  secret: "test-secret-key-that-is-at-least-32-characters-long-12345678"

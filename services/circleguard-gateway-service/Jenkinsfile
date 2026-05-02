@@ -5,6 +5,8 @@ pipeline {
         SERVICE_NAME = "gateway-service"
         NAMESPACE = "taller2-dev"
         IMAGE_NAME = "$SERVICE_NAME:latest"
+        DOCKER_HOST = "unix:///var/run/docker.sock"
+        TESTCONTAINERS_RYUK_DISABLED = "true"
     }
 
     stages {
