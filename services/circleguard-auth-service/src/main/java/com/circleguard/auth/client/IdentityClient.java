@@ -1,13 +1,14 @@
 package com.circleguard.auth.client;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import java.util.*;
 
 @Component
+@RequiredArgsConstructor
 public class IdentityClient {
-    // In a real microservice, this would use Feign or WebClient
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
     private static final String IDENTITY_URL = "http://localhost:8083/api/v1/identities/map";
 
     public UUID getAnonymousId(String realIdentity) {
