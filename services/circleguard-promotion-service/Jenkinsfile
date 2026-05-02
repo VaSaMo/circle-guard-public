@@ -22,8 +22,9 @@ pipeline {
         stage('Build') {
             steps {
                 dir("services/circleguard-$SERVICE_NAME") {
-                    sh 'echo "docker.host=$DOCKER_HOST" > ~/.testcontainers.properties'
-                    sh 'echo "checks.disable=true" >> ~/.testcontainers.properties'
+                    sh "echo 'docker.host=$DOCKER_HOST' > ~/.testcontainers.properties"
+                    sh "echo 'testcontainers.host=host.docker.internal' >> ~/.testcontainers.properties"
+                    sh "echo 'checks.disable=true' >> ~/.testcontainers.properties"
                     sh "../../gradlew clean build -Dtestcontainers.docker.host=$DOCKER_HOST -Dorg.testcontainers.dockerclient.UnixSocketClientProviderStrategy.priority=1"
                 }
             }
