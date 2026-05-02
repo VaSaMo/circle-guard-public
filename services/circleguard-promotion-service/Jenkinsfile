@@ -7,6 +7,7 @@ pipeline {
         IMAGE_NAME = "$SERVICE_NAME:latest"
         DOCKER_HOST = "unix:///var/run/docker.sock"
         TESTCONTAINERS_RYUK_DISABLED = "true"
+        TESTCONTAINERS_DOCKER_CLIENT_STRATEGY = "org.testcontainers.dockerclient.UnixSocketClientProviderStrategy"
     }
 
     stages {
@@ -19,7 +20,7 @@ pipeline {
         stage('Build') {
             steps {
                 dir("services/circleguard-$SERVICE_NAME") {
-                    sh "../../gradlew clean build -Dtestcontainers.docker.host=$DOCKER_HOST"
+                    sh "../../gradlew clean build -Dtestcontainers.docker.host=$DOCKER_HOST -Dorg.testcontainers.dockerclient.UnixSocketClientProviderStrategy.priority=1"
                 }
             }
         }

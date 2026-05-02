@@ -2,6 +2,7 @@ package com.circleguard.promotion.controller;
 
 import com.circleguard.promotion.service.HealthStatusService;
 import com.circleguard.promotion.security.SecurityConfig;
+import com.circleguard.promotion.security.JwtAuthenticationFilter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -16,7 +17,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(HealthStatusController.class)
-@Import(SecurityConfig.class)
+@Import({SecurityConfig.class, JwtAuthenticationFilter.class})
 class HealthStatusControllerTest {
 
     @Autowired
