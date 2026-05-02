@@ -8,6 +8,8 @@ pipeline {
         DOCKER_HOST = "unix:///var/run/docker.sock"
         TESTCONTAINERS_RYUK_DISABLED = "true"
         TESTCONTAINERS_DOCKER_CLIENT_STRATEGY = "org.testcontainers.dockerclient.UnixSocketClientProviderStrategy"
+        TESTCONTAINERS_CHECKS_DISABLE = "true"
+        TESTCONTAINERS_HOST_OVERRIDE = "host.docker.internal"
     }
 
     stages {
