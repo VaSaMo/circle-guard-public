@@ -5,11 +5,10 @@ pipeline {
         SERVICE_NAME = "promotion-service"
         NAMESPACE = "taller2-dev"
         IMAGE_NAME = "$SERVICE_NAME:latest"
+        
+        // Configuraciones de Testcontainers
         DOCKER_HOST = "unix:///var/run/docker.sock"
         TESTCONTAINERS_RYUK_DISABLED = "true"
-        TESTCONTAINERS_DOCKER_CLIENT_STRATEGY = "org.testcontainers.dockerclient.UnixSocketClientProviderStrategy"
-        TESTCONTAINERS_CHECKS_DISABLE = "true"
-        TESTCONTAINERS_HOST_OVERRIDE = "host.docker.internal"
     }
 
     stages {
@@ -22,11 +21,11 @@ pipeline {
         stage('Build') {
             steps {
                 dir("services/circleguard-$SERVICE_NAME") {
-                    sh "ls -la /var/run/docker.sock"
+                    sh "docker info"
                     sh "echo 'docker.host=unix:///var/run/docker.sock' > ~/.testcontainers.properties"
                     sh "echo 'testcontainers.host=host.docker.internal' >> ~/.testcontainers.properties"
                     sh "echo 'checks.disable=true' >> ~/.testcontainers.properties"
-                    sh "../../gradlew clean build -Dtestcontainers.docker.host=unix:///var/run/docker.sock"
+                    sh "export DOCKER_HOST=unix:///var/run/docker.sock && ../../gradlew clean build --no-daemon -Dtestcontainers.docker.host=unix:///var/run/docker.sock"
                 }
             }
         }
