@@ -17,7 +17,7 @@ spec:
       containers:
       - name: gateway-service
         image: gateway-service:latest
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8087
 ---
@@ -52,7 +52,7 @@ spec:
       containers:
       - name: auth-service
         image: auth-service:latest
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8180
 ---
@@ -87,7 +87,7 @@ spec:
       containers:
       - name: identity-service
         image: identity-service:latest
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8083
         env:
@@ -125,7 +125,7 @@ spec:
       containers:
       - name: promotion-service
         image: promotion-service:latest
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8088
 ---
