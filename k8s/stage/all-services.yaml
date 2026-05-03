@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gateway-service
-  namespace: taller2-dev
+  namespace: taller2-stage
 spec:
   replicas: 1
   selector:
@@ -25,7 +25,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: gateway-service
-  namespace: taller2-dev
+  namespace: taller2-stage
 spec:
   selector:
     app: gateway-service
@@ -38,7 +38,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: auth-service
-  namespace: taller2-dev
+  namespace: taller2-stage
 spec:
   replicas: 1
   selector:
@@ -65,7 +65,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: auth-service
-  namespace: taller2-dev
+  namespace: taller2-stage
 spec:
   selector:
     app: auth-service
@@ -78,7 +78,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: identity-service
-  namespace: taller2-dev
+  namespace: taller2-stage
 spec:
   replicas: 1
   selector:
@@ -103,7 +103,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: identity-service
-  namespace: taller2-dev
+  namespace: taller2-stage
 spec:
   selector:
     app: identity-service
@@ -116,7 +116,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: promotion-service
-  namespace: taller2-dev
+  namespace: taller2-stage
 spec:
   replicas: 1
   selector:
@@ -147,7 +147,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: promotion-service
-  namespace: taller2-dev
+  namespace: taller2-stage
 spec:
   selector:
     app: promotion-service
@@ -160,7 +160,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: notification-service
-  namespace: taller2-dev
+  namespace: taller2-stage
 spec:
   replicas: 1
   selector:
@@ -187,7 +187,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: notification-service
-  namespace: taller2-dev
+  namespace: taller2-stage
 spec:
   selector:
     app: notification-service
@@ -200,7 +200,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: form-service
-  namespace: taller2-dev
+  namespace: taller2-stage
 spec:
   replicas: 1
   selector:
@@ -227,7 +227,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: form-service
-  namespace: taller2-dev
+  namespace: taller2-stage
 spec:
   selector:
     app: form-service
