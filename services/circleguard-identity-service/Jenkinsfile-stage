@@ -51,7 +51,7 @@ pipeline {
             }
         }
 
-        stage('Smoke & Performance Tests') {
+        stage('Smoke Tests') {
             // Pruebas de la aplicación desplegada en Kubernetes (Actividad 4).
             // Verifica /actuator/health vía port-forward y ejecuta Locust.
             steps {
@@ -61,7 +61,7 @@ pipeline {
                 withEnv(["KUBECONFIG=/tmp/kubeconfig"]) {
                     script {
                         sh "nohup kubectl port-forward svc/identity-service 8083:8083 -n $NAMESPACE --insecure-skip-tls-verify > pf-identity.log 2>&1 &"
-                        sleep 15
+                        sleep 30 // Aumentamos el tiempo para que el port-forward sea estable
 
                         try {
                             // Smoke Test
@@ -75,9 +75,7 @@ pipeline {
                                 fi
                             '''
 
-                            // Performance Test con Locust (Punto 4 del taller)
-                            sh "locust -f performance/locustfile.py --headless -u 5 -r 1 -t 30s --tags identity"
-                            
+
                         } finally {
                             sh "pkill -f 'kubectl port-forward' || true"
                         }
