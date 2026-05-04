@@ -25,12 +25,20 @@ spec:
           value: jdbc:postgresql://postgres:5432/circleguard_auth
         - name: SPRING_LDAP_URLS
           value: ldap://openldap:389
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "768Mi"
+            cpu: "500m"
         readinessProbe:
           httpGet:
             path: /actuator/health
             port: 8180
-          initialDelaySeconds: 30
+          initialDelaySeconds: 60
           periodSeconds: 10
+          timeoutSeconds: 5
           failureThreshold: 30
 ---
 apiVersion: v1
