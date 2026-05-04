@@ -129,8 +129,8 @@ spec:
     spec:
       containers:
       - name: promotion-service
-        image: promotion-service:latest
-        imagePullPolicy: IfNotPresent
+        image: promotion-service:v3
+        imagePullPolicy: Always
         ports:
         - containerPort: 8088
         env:
