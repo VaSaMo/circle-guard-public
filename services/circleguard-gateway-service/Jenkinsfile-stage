@@ -43,8 +43,8 @@ pipeline {
                 sh "sed -i 's/127.0.0.1/host.docker.internal/g' /tmp/kubeconfig"
                 
                 withEnv(["KUBECONFIG=/tmp/kubeconfig"]) {
-                    // Aplicar manifiesto de stage
-                    sh "kubectl apply -f k8s/stage/all-services.yaml -n $NAMESPACE --insecure-skip-tls-verify"
+                    // Aplicar manifiesto específico de este servicio
+                    sh "kubectl apply -f k8s/stage/gateway-service.yaml -n $NAMESPACE --insecure-skip-tls-verify"
                     sh "kubectl rollout restart deployment/$SERVICE_NAME -n $NAMESPACE --insecure-skip-tls-verify"
                     sh "kubectl rollout status deployment/$SERVICE_NAME -n $NAMESPACE --insecure-skip-tls-verify --timeout=300s"
                 }
