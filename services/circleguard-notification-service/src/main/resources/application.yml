@@ -32,3 +32,8 @@ qr:
 
 server:
   port: 8082
+
+management:
+  health:
+    mail:
+      enabled: false
