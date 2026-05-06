@@ -101,7 +101,7 @@ pipeline {
                 sh "sed -i 's/127.0.0.1/host.docker.internal/g' ${KUBECONFIG_PATH}"
                 
                 withEnv(["KUBECONFIG=${KUBECONFIG_PATH}"]) {
-                    sh "kubectl create namespace $NAMESPACE --dry-run=client -o yaml | kubectl apply -f -"
+                    sh "kubectl create namespace $NAMESPACE --dry-run=client -o yaml | kubectl apply -f - --insecure-skip-tls-verify"
                     sh "kubectl apply -f k8s/stage/postgres.yaml -n $NAMESPACE --insecure-skip-tls-verify"
                     sh "kubectl apply -f k8s/stage/infrastructure.yaml -n $NAMESPACE --insecure-skip-tls-verify"
                 }
