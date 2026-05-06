@@ -19,7 +19,7 @@ pipeline {
                 stage('Auth Service') {
                     steps {
                         dir("services/circleguard-auth-service") {
-                            sh "../../gradlew clean build"
+                            sh "../../gradlew clean build --no-daemon -Dorg.gradle.jvmargs='-Xmx512m'"
                             sh "docker build -t auth-service:latest ."
                         }
                     }
@@ -27,7 +27,7 @@ pipeline {
                 stage('Identity Service') {
                     steps {
                         dir("services/circleguard-identity-service") {
-                            sh "../../gradlew clean build"
+                            sh "../../gradlew clean build --no-daemon -Dorg.gradle.jvmargs='-Xmx512m'"
                             sh "docker build -t identity-service:latest ."
                         }
                     }
@@ -35,7 +35,7 @@ pipeline {
                 stage('Gateway Service') {
                     steps {
                         dir("services/circleguard-gateway-service") {
-                            sh "../../gradlew clean build"
+                            sh "../../gradlew clean build --no-daemon -Dorg.gradle.jvmargs='-Xmx512m'"
                             sh "docker build -t gateway-service:latest ."
                         }
                     }
@@ -43,7 +43,7 @@ pipeline {
                 stage('Form Service') {
                     steps {
                         dir("services/circleguard-form-service") {
-                            sh "../../gradlew clean build"
+                            sh "../../gradlew clean build --no-daemon -Dorg.gradle.jvmargs='-Xmx512m'"
                             sh "docker build -t form-service:latest ."
                         }
                     }
@@ -51,7 +51,7 @@ pipeline {
                 stage('Notification Service') {
                     steps {
                         dir("services/circleguard-notification-service") {
-                            sh "../../gradlew clean build"
+                            sh "../../gradlew clean build --no-daemon -Dorg.gradle.jvmargs='-Xmx512m'"
                             sh "docker build -t notification-service:latest ."
                         }
                     }
@@ -59,7 +59,7 @@ pipeline {
                 stage('Promotion Service') {
                     steps {
                         dir("services/circleguard-promotion-service") {
-                            sh "../../gradlew clean build"
+                            sh "../../gradlew clean build --no-daemon -Dorg.gradle.jvmargs='-Xmx512m'"
                             sh "docker build -t promotion-service:latest ."
                         }
                     }
