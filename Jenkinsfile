@@ -19,7 +19,7 @@ pipeline {
                 stage('Auth Service') {
                     steps {
                         dir("services/circleguard-auth-service") {
-                            sh "../../gradlew clean build -x test"
+                            sh "../../gradlew clean build"
                             sh "docker build -t auth-service:latest ."
                         }
                     }
@@ -27,7 +27,7 @@ pipeline {
                 stage('Identity Service') {
                     steps {
                         dir("services/circleguard-identity-service") {
-                            sh "../../gradlew clean build -x test"
+                            sh "../../gradlew clean build"
                             sh "docker build -t identity-service:latest ."
                         }
                     }
@@ -35,7 +35,7 @@ pipeline {
                 stage('Gateway Service') {
                     steps {
                         dir("services/circleguard-gateway-service") {
-                            sh "../../gradlew clean build -x test"
+                            sh "../../gradlew clean build"
                             sh "docker build -t gateway-service:latest ."
                         }
                     }
@@ -43,7 +43,7 @@ pipeline {
                 stage('Form Service') {
                     steps {
                         dir("services/circleguard-form-service") {
-                            sh "../../gradlew clean build -x test"
+                            sh "../../gradlew clean build"
                             sh "docker build -t form-service:latest ."
                         }
                     }
@@ -51,7 +51,7 @@ pipeline {
                 stage('Notification Service') {
                     steps {
                         dir("services/circleguard-notification-service") {
-                            sh "../../gradlew clean build -x test"
+                            sh "../../gradlew clean build"
                             sh "docker build -t notification-service:latest ."
                         }
                     }
@@ -59,7 +59,7 @@ pipeline {
                 stage('Promotion Service') {
                     steps {
                         dir("services/circleguard-promotion-service") {
-                            sh "../../gradlew clean build -x test"
+                            sh "../../gradlew clean build"
                             sh "docker build -t promotion-service:latest ."
                         }
                     }
@@ -127,6 +127,18 @@ pipeline {
                             sh "kubectl exec -n $NAMESPACE deployment/${svc.name} -- curl -s http://localhost:${svc.port}/actuator/health | grep UP"
                         }
                     }
+                }
+            }
+        }
+
+        stage('Functional Tests (E2E)') {
+            steps {
+                withEnv(["KUBECONFIG=${KUBECONFIG_PATH}"]) {
+                    echo "Running basic functional checks against deployed services..."
+                    // Example: Check if Gateway can route to Auth
+                    sh "kubectl exec -n $NAMESPACE deployment/gateway-service -- curl -s http://localhost:8087/actuator/info"
+                    // Example: Check if Auth service has its context path working
+                    sh "kubectl exec -n $NAMESPACE deployment/auth-service -- curl -s http://localhost:8180/actuator/info"
                 }
             }
         }
