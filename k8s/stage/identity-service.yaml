@@ -22,16 +22,16 @@ spec:
         - containerPort: 8083
         env:
         - name: JAVA_TOOL_OPTIONS
-          value: "-Xmx384m -Xms256m"
+          value: "-Xmx512m -Xms256m"
         - name: SPRING_DATASOURCE_URL
           value: jdbc:postgresql://postgres:5432/circleguard_identity
         resources:
           requests:
-            memory: "384Mi"
-            cpu: "200m"
-          limits:
             memory: "512Mi"
             cpu: "500m"
+          limits:
+            memory: "768Mi"
+            cpu: "1000m"
         readinessProbe:
           httpGet:
             path: /actuator/health
