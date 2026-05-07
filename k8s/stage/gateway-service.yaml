@@ -17,16 +17,27 @@ spec:
       containers:
       - name: gateway-service
         image: gateway-service:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 8087
+        env:
+        - name: JAVA_TOOL_OPTIONS
+          value: "-Xmx384m -Xms256m"
+        resources:
+          requests:
+            memory: "384Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
         readinessProbe:
           httpGet:
             path: /actuator/health
             port: 8087
-          initialDelaySeconds: 30
+          initialDelaySeconds: 45
           periodSeconds: 10
-          failureThreshold: 30
+          timeoutSeconds: 5
+          failureThreshold: 20
 ---
 apiVersion: v1
 kind: Service

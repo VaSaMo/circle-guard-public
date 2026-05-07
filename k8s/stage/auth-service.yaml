@@ -17,7 +17,7 @@ spec:
       containers:
       - name: auth-service
         image: auth-service:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 8180
         env:
@@ -38,10 +38,10 @@ spec:
           httpGet:
             path: /actuator/health
             port: 8180
-          initialDelaySeconds: 60
+          initialDelaySeconds: 45
           periodSeconds: 10
           timeoutSeconds: 5
-          failureThreshold: 30
+          failureThreshold: 20
 ---
 apiVersion: v1
 kind: Service

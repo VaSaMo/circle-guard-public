@@ -20,6 +20,18 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    @org.springframework.beans.factory.annotation.Value("${spring.ldap.urls:ldap://localhost:389}")
+    private String ldapUrls;
+
+    @org.springframework.beans.factory.annotation.Value("${spring.ldap.base:dc=circleguard,dc=edu}")
+    private String ldapBase;
+
+    @org.springframework.beans.factory.annotation.Value("${spring.ldap.username:cn=admin,dc=circleguard,dc=edu}")
+    private String ldapUsername;
+
+    @org.springframework.beans.factory.annotation.Value("${spring.ldap.password:admin}")
+    private String ldapPassword;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtFilter) throws Exception {
         http
@@ -56,10 +68,10 @@ public class SecurityConfig {
     @Bean
     public LdapContextSource contextSource() {
         LdapContextSource contextSource = new LdapContextSource();
-        contextSource.setUrl("ldap://localhost:389");
-        contextSource.setBase("dc=circleguard,dc=edu");
-        contextSource.setUserDn("cn=admin,dc=circleguard,dc=edu");
-        contextSource.setPassword("admin");
+        contextSource.setUrl(ldapUrls);
+        contextSource.setBase(ldapBase);
+        contextSource.setUserDn(ldapUsername);
+        contextSource.setPassword(ldapPassword);
         return contextSource;
     }
 

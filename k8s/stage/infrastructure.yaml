@@ -21,6 +21,13 @@ spec:
           value: "2181"
         - name: ZOOKEEPER_TICK_TIME
           value: "2000"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
 ---
 apiVersion: v1
 kind: Service
@@ -65,6 +72,15 @@ spec:
           value: "PLAINTEXT"
         - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
           value: "1"
+        - name: KAFKA_HEAP_OPTS
+          value: "-Xmx256m -Xms256m"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "200m"
 ---
 apiVersion: v1
 kind: Service
@@ -103,6 +119,19 @@ spec:
           value: '["apoc"]'
         - name: NEO4J_server_config_strict__validation_enabled
           value: "false"
+        - name: NEO4J_server_memory_heap_initial__size
+          value: "256m"
+        - name: NEO4J_server_memory_heap_max__size
+          value: "256m"
+        - name: NEO4J_server_memory_pagecache_size
+          value: "128m"
+        resources:
+          requests:
+            memory: "384Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "200m"
 ---
 apiVersion: v1
 kind: Service
@@ -138,6 +167,13 @@ spec:
       containers:
       - name: redis
         image: redis:7
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "50m"
+          limits:
+            memory: "64Mi"
+            cpu: "100m"
 ---
 apiVersion: v1
 kind: Service
@@ -176,6 +212,13 @@ spec:
           value: "circleguard.edu"
         - name: LDAP_ADMIN_PASSWORD
           value: "admin"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
 ---
 apiVersion: v1
 kind: Service
