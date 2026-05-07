@@ -148,12 +148,12 @@ pipeline {
             steps {
                 withEnv(["KUBECONFIG=${KUBECONFIG_PATH}"]) {
                     sh '''
-                        kubectl port-forward -n ${NAMESPACE} svc/auth-service         8180:8180 &
-                        kubectl port-forward -n ${NAMESPACE} svc/identity-service     8083:8083 &
-                        kubectl port-forward -n ${NAMESPACE} svc/form-service         8086:8086 &
-                        kubectl port-forward -n ${NAMESPACE} svc/gateway-service      8087:8087 &
-                        kubectl port-forward -n ${NAMESPACE} svc/promotion-service    8088:8088 &
-                        kubectl port-forward -n ${NAMESPACE} svc/notification-service 8082:8082 &
+                        kubectl port-forward -n ${NAMESPACE} svc/auth-service         8180:8180 --insecure-skip-tls-verify &
+                        kubectl port-forward -n ${NAMESPACE} svc/identity-service     8083:8083 --insecure-skip-tls-verify &
+                        kubectl port-forward -n ${NAMESPACE} svc/form-service         8086:8086 --insecure-skip-tls-verify &
+                        kubectl port-forward -n ${NAMESPACE} svc/gateway-service      8087:8087 --insecure-skip-tls-verify &
+                        kubectl port-forward -n ${NAMESPACE} svc/promotion-service    8088:8088 --insecure-skip-tls-verify &
+                        kubectl port-forward -n ${NAMESPACE} svc/notification-service 8082:8082 --insecure-skip-tls-verify &
                         sleep 15
 
                         FAILED=0
