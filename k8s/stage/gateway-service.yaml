@@ -23,6 +23,8 @@ spec:
         env:
         - name: JAVA_TOOL_OPTIONS
           value: "-Xmx512m -Xms256m"
+        - name: SPRING_DATA_REDIS_HOST
+          value: redis
         resources:
           requests:
             memory: "512Mi"
