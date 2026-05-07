@@ -104,6 +104,9 @@ pipeline {
                     sh "kubectl create namespace $NAMESPACE --dry-run=client -o yaml | kubectl apply -f - --insecure-skip-tls-verify"
                     sh "kubectl apply -f k8s/stage/postgres.yaml -n $NAMESPACE --insecure-skip-tls-verify"
                     sh "kubectl apply -f k8s/stage/infrastructure.yaml -n $NAMESPACE --insecure-skip-tls-verify"
+                    
+                    echo "Waiting for infrastructure (Postgres, Kafka, etc.) to stabilize..."
+                    sh "sleep 60"
                 }
             }
         }

@@ -21,16 +21,18 @@ spec:
         ports:
         - containerPort: 8180
         env:
+        - name: JAVA_TOOL_OPTIONS
+          value: "-Xmx384m -Xms256m"
         - name: SPRING_DATASOURCE_URL
           value: jdbc:postgresql://postgres:5432/circleguard_auth
         - name: SPRING_LDAP_URLS
           value: ldap://openldap:389
         resources:
           requests:
-            memory: "512Mi"
-            cpu: "250m"
+            memory: "384Mi"
+            cpu: "200m"
           limits:
-            memory: "768Mi"
+            memory: "512Mi"
             cpu: "500m"
         readinessProbe:
           httpGet:
