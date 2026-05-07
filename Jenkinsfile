@@ -143,34 +143,32 @@ pipeline {
             }
         }
 
-        stage('Verify & Smoke Tests') {
+        stage('Smoke Tests') {
             steps {
                 withEnv(["KUBECONFIG=${KUBECONFIG_PATH}"]) {
-                    script {
-                        def services = [
-                            [name: 'auth-service', port: 8180],
-                            [name: 'identity-service', port: 8083],
-                            [name: 'gateway-service', port: 8087],
-                            [name: 'form-service', port: 8086],
-                            [name: 'notification-service', port: 8082],
-                            [name: 'promotion-service', port: 8088]
-                        ]
-                        
-                        services.each { svc ->
-                            echo "Checking health for ${svc.name}..."
-                            sh "kubectl exec -n $NAMESPACE deployment/${svc.name} -- curl -s http://localhost:${svc.port}/actuator/health | grep UP"
-                        }
-                    }
-                }
-            }
-        }
+                    sh '''
+                        kubectl port-forward -n ${NAMESPACE} svc/auth-service         8180:8180 &
+                        kubectl port-forward -n ${NAMESPACE} svc/identity-service     8083:8083 &
+                        kubectl port-forward -n ${NAMESPACE} svc/form-service         8086:8086 &
+                        kubectl port-forward -n ${NAMESPACE} svc/gateway-service      8087:8087 &
+                        kubectl port-forward -n ${NAMESPACE} svc/promotion-service    8088:8088 &
+                        kubectl port-forward -n ${NAMESPACE} svc/notification-service 8082:8082 &
+                        sleep 15
 
-        stage('Functional Tests (E2E)') {
-            steps {
-                withEnv(["KUBECONFIG=${KUBECONFIG_PATH}"]) {
-                    echo "Running basic functional checks against deployed services..."
-                    sh "kubectl exec -n $NAMESPACE deployment/gateway-service -- curl -s http://localhost:8087/actuator/info"
-                    sh "kubectl exec -n $NAMESPACE deployment/auth-service -- curl -s http://localhost:8180/actuator/info"
+                        FAILED=0
+                        for PORT in 8180 8083 8086 8087 8088 8082; do
+                            STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${PORT}/actuator/health)
+                            if [ "$STATUS" = "200" ]; then
+                                echo "SMOKE OK  - port ${PORT} -> HTTP ${STATUS}"
+                            else
+                                echo "SMOKE FAIL - port ${PORT} -> HTTP ${STATUS}"
+                                FAILED=1
+                            fi
+                        done
+
+                        pkill -f "kubectl port-forward" || true
+                        exit $FAILED
+                    '''
                 }
             }
         }
