@@ -134,11 +134,12 @@ pipeline {
                     sh "kubectl rollout restart deployment/notification-service -n $NAMESPACE --insecure-skip-tls-verify"
                     sh "kubectl rollout status deployment/notification-service -n $NAMESPACE --timeout=300s --insecure-skip-tls-verify"
 
+                    sh "kubectl rollout restart deployment/gateway-service -n $NAMESPACE --insecure-skip-tls-verify"
+                    sh "kubectl rollout status deployment/gateway-service -n $NAMESPACE --timeout=300s --insecure-skip-tls-verify"
+                    
                     sh "kubectl rollout restart deployment/promotion-service -n $NAMESPACE --insecure-skip-tls-verify"
                     sh "kubectl rollout status deployment/promotion-service -n $NAMESPACE --timeout=300s --insecure-skip-tls-verify"
 
-                    sh "kubectl rollout restart deployment/gateway-service -n $NAMESPACE --insecure-skip-tls-verify"
-                    sh "kubectl rollout status deployment/gateway-service -n $NAMESPACE --timeout=300s --insecure-skip-tls-verify"
                 }
             }
         }
