@@ -2,7 +2,7 @@
 
 ## Índice
 - [1. Configuración de los Pipelines](#1-configuración-de-los-pipelines)
-  - [Capturas de Configuración](#capturas-de-configuración)
+  - [Capturas de Jenkins](#capturas-de-jenkins)
   - [Estructura General de las Pipelines](#estructura-general-de-las-pipelines)
   - [Infraestructura de Servicios y CI/CD](#infraestructura-de-servicios-y-cicd)
 - [2. Resultados de las Ejecuciones](#2-resultados-de-las-ejecuciones)
@@ -23,9 +23,9 @@ Se implementó una estrategia de integración continua y despliegue continuo (CI
 - **Entorno DEV**: Cada microservicio cuenta con su propio `Jenkinsfile` interno dedicado a su construcción y despliegue independiente en el namespace `taller2-dev`.
 - **Entornos STAGE y PROD**: Se diseñaron dos pipelines orquestadores principales (`Jenkinsfile` en la raíz para Stage y `Jenkinsfile.prod` para Producción) que automatizan el despliegue de toda la infraestructura y microservicios de forma conjunta.
 
-### Capturas de Configuración
+### Capturas de Jenkins
 
-A continuación se muestran los pantallazos relevantes de la configuración en Jenkins:
+A continuación se muestran los pantallazos relevantes de la ejecución de pipelines en Jenkins:
 
 ![Pipelines DEV](evidences/pipelines_dev.jpeg)
 ![Pipeline STAGE](evidences/pipeline_stage.png)
