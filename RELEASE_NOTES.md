@@ -1,0 +1,49 @@
+# Release Notes - Entorno de Producción (Master)
+Generado automáticamente siguiendo las buenas prácticas de Change Management.
+
+## Nuevas características y correcciones incluidas:
+- feat: created pipeline for prod (f750d26) por Vanessa Sanchez Morales
+- fix: added skip tls for smoke tests (db65d37) por Vanessa Sanchez Morales
+- fix: added resources for neo4j (d16a01f) por Vanessa Sanchez Morales
+- changed order in jenkins file (0866c9f) por Vanessa Sanchez Morales
+- fix: changed variables in promotion and gateway (b7036ab) por Vanessa Sanchez Morales
+- fix: changed tests from stage pipeline (aff0e02) por Vanessa Sanchez Morales
+- fix: changed deploy order (b26f205) por Vanessa Sanchez Morales
+- fix: applied multistaging in images (5fee13f) por Vanessa Sanchez Morales
+- fix: added limit resources and dependency (4f5ef57) por Vanessa Sanchez Morales
+- fix: limit resources to auth (64d1ee7) por Vanessa Sanchez Morales
+- fix: changed certification verification (594614f) por Vanessa Sanchez Morales
+- changed pipeline for stage to not be parrallel (d30f156) por Vanessa Sanchez Morales
+- fix: disable gradle daemon and limit memory for parallel builds (ed8466b) por Vanessa Sanchez Morales
+- tests: added report from locust tests (1ac322b) por Vanessa Sanchez Morales
+- feat: configure stage pipeline with unit tests and fix notification db (18df83b) por Vanessa Sanchez Morales
+- Implementación de pipeline consolidado de stage y manifiestos K8s (de37e28) por Vanessa Sanchez Morales
+- added dependency in notification (f10aefb) por Vanessa Sanchez Morales
+- Fix: created system_settings table in V2 migration and added stage-all pipeline (8309e23) por Vanessa Sanchez Morales
+- added more resources to avoid timeout (7449464) por Vanessa Sanchez Morales
+- added rediness probe and more margin after port forward (05408eb) por Vanessa Sanchez Morales
+- created independent kubernetes manifestos for the three currently working microservices (5a48f37) por Vanessa Sanchez Morales
+- feat: add stage pipelines and k8s manifests for workshop point 4 (51f3cba) por Vanessa Sanchez Morales
+- Added main tests for point 3, currently working on locust tests (adf1295) por Vanessa Sanchez Morales
+- Configure Postgres env variables and fix image pull policy (b056ef2) por Vanessa Sanchez Morales
+- Add H2 support for form-service tests (635a2e6) por Vanessa Sanchez Morales
+- Disable Testcontainers tests while keeping unit tests (1116d5f) por Vanessa Sanchez Morales
+- Added env variables to tests in promotion-service (49ddcd9) por Vanessa Sanchez Morales
+- no deamon (0f32b75) por Vanessa Sanchez Morales
+- Turning down gradle deamon (78fbdd2) por Vanessa Sanchez Morales
+- Added logging to find error in promotion-service tests (3aadf90) por Vanessa Sanchez Morales
+- Fix variable expansion in Jenkinsfile (49882ef) por Vanessa Sanchez Morales
+- Forced testcontainer location (1a4261b) por Vanessa Sanchez Morales
+- Fix Role prefix in tests and add Testcontainers tweaks (f98a719) por Vanessa Sanchez Morales
+- Fix controller security test and force Testcontainers strategy (32d3629) por Vanessa Sanchez Morales
+- Fix Docker detection and test configuration in promotion-service (f23f26c) por Vanessa Sanchez Morales
+- Fix Testcontainers and JWT secret in service tests (2ea1083) por Vanessa Sanchez Morales
+- Fix WeakKeyException in identity-service tests (c648578) por Vanessa Sanchez Morales
+- Omitir verificación TLS en Jenkins (d4153ce) por Vanessa Sanchez Morales
+- Usar ruta temporal para kubeconfig (d76a677) por Vanessa Sanchez Morales
+- Corregir conexión de Jenkins a Kubernetes (945588c) por Vanessa Sanchez Morales
+- Agregar Dockerfiles, Jenkinsfiles y manifiestos de K8s para la Fase 2 (187110a) por Vanessa Sanchez Morales
+- complement front (538bd0f) por Juan Carlos Muñoz
+- startup and tests fixed (a1d5f41) por Juan Carlos Muñoz
+- Add implementation on front and back (dce49ac) por Juan Carlos Muñoz
+- first commit (f959b8b) por Juan Carlos Muñoz
