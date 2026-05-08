@@ -1,5 +1,18 @@
 # Reporte: Taller de Pruebas y Release 261
 
+## Índice
+- [1. Configuración de los Pipelines](#1-configuración-de-los-pipelines)
+  - [Capturas de Configuración](#capturas-de-configuración)
+  - [Estructura General de las Pipelines](#estructura-general-de-las-pipelines)
+  - [Infraestructura de Servicios y CI/CD](#infraestructura-de-servicios-y-cicd)
+- [2. Resultados de las Ejecuciones](#2-resultados-de-las-ejecuciones)
+  - [Capturas de Resultados y Pods](#capturas-de-resultados-y-pods)
+- [3. Análisis de Pruebas de Rendimiento](#3-análisis-de-pruebas-de-rendimiento)
+  - [Resumen de Resultados](#resumen-de-resultados)
+  - [Análisis por Endpoints](#análisis-por-endpoints)
+
+---
+
 Este documento contiene las evidencias solicitadas para el cumplimiento de los objetivos del Taller de Pruebas y Release 261, documentando la configuración, ejecución exitosa y análisis de los pipelines y pruebas de rendimiento sobre la arquitectura de microservicios de CircleGuard.
 
 ---
