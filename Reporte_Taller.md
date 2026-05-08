@@ -1,6 +1,7 @@
 # Reporte: Taller de Pruebas y Release 261
 
 ## Índice
+- [Estructura del Proyecto](#estructura-del-proyecto)
 - [1. Configuración de los Pipelines](#1-configuración-de-los-pipelines)
   - [Capturas de Jenkins](#capturas-de-jenkins)
   - [Estructura General de las Pipelines](#estructura-general-de-las-pipelines)
@@ -10,10 +11,39 @@
 - [3. Análisis de Pruebas de Rendimiento](#3-análisis-de-pruebas-de-rendimiento)
   - [Resumen de Resultados](#resumen-de-resultados)
   - [Análisis por Endpoints](#análisis-por-endpoints)
+- [4. Estrategia de Pruebas (Unitarias, Integración y E2E)](#4-estrategia-de-pruebas-unitarias-integración-y-e2e)
 
 ---
 
 Este documento contiene las evidencias solicitadas para el cumplimiento de los objetivos del Taller de Pruebas y Release 261, documentando la configuración, ejecución exitosa y análisis de los pipelines y pruebas de rendimiento sobre la arquitectura de microservicios de CircleGuard.
+
+---
+
+## Estructura del Proyecto
+
+El repositorio está organizado en los siguientes directorios y archivos principales para soportar el flujo CI/CD y la arquitectura de microservicios:
+
+```text
+circle-guard-public/
+├── Jenkinsfile                  # Pipeline orquestador para el entorno STAGE
+├── Jenkinsfile.prod             # Pipeline orquestador para el entorno PROD
+├── jenkins-infra/               # Aprovisionamiento de Jenkins en Docker
+│   ├── docker-compose.yml
+│   └── Dockerfile
+├── k8s/                         # Manifiestos de Kubernetes por entorno
+│   ├── dev/
+│   ├── stage/
+│   └── prod/
+├── performance/                 # Pruebas de rendimiento con Locust
+├── services/                    # Código fuente y Dockerfiles de los microservicios
+│   ├── circleguard-auth-service/
+│   ├── circleguard-identity-service/
+│   ├── circleguard-gateway-service/
+│   ├── circleguard-form-service/
+│   ├── circleguard-notification-service/
+│   └── circleguard-promotion-service/
+└── evidences/                   # Capturas y evidencias del taller
+```
 
 ---
 
@@ -292,3 +322,24 @@ Se ejecutaron pruebas de rendimiento utilizando **Locust** apuntando al Gateway 
 
 > **Conclusión del Análisis:**
 > La arquitectura responde con alta eficiencia y resiliencia bajo carga moderada. El **100% de éxito en las peticiones (tasa de error del 0%)** y el throughput sostenido de **6 req/s**, con picos de tiempos de respuesta por debajo de los 400ms para las operaciones más complejas, demuestra que el despliegue es altamente estable y los recursos asignados en el clúster a los pods son adecuados.
+
+---
+
+## 4. Estrategia de Pruebas (Unitarias, Integración y E2E)
+
+Como parte de los criterios de aceptación y aseguramiento de la calidad definidos en los pipelines, se implementaron múltiples niveles de pruebas automatizadas que se ejecutan de manera secuencial para asegurar que no se desplieguen versiones corruptas:
+
+### Pruebas Unitarias y de Integración (Nivel Microservicio)
+Durante la fase de construcción (`Build`) de cada pipeline, Gradle ejecuta de forma paralela la batería de pruebas de cada microservicio:
+- **Pruebas Unitarias:** Verifican la lógica de negocio aislada usando **JUnit 5** y frameworks como **Mockito**.
+- **Pruebas de Integración:** La mayoría de los servicios ejecutan correctamente sus pruebas de integración simulando conexiones a base de datos. 
+
+    *Excepción:* En el caso exclusivo de `promotion-service` (que utiliza **Testcontainers** para instanciar Neo4j real), las pruebas se tuvieron que omitir durante la compilación en Jenkins (`-x test`) debido a la restricción técnica de ejecutar contenedores anidados (Docker-in-Docker). El resto de microservicios ejecuta la fase `test` con normalidad.
+
+### Pruebas End-to-End (E2E)
+Una vez que el entorno STAGE es aprovisionado y los microservicios están funcionales, se ejecuta una validación de alto nivel de las historias de usuario:
+- **Flujos de Usuario Reales:** Se ejecutan scripts automatizados de **Pytest** que interactúan directamente con los endpoints expuestos del Gateway, emulando peticiones de front-end y aplicaciones móviles.
+- **Validación Exitosa:** Se reportó la superación exitosa de todos los flujos críticos de la aplicación (`pytest 5/5 pass`), asegurando que la interacción cruzada (como enviar una petición Auth, obtener el JWT y crear un Formulario) funciona correctamente bajo la nueva infraestructura.
+
+### Smoke Tests (Sanidad) Post-Despliegue
+En todos los entornos (STAGE y PROD), inmediatamente después de aplicar los manifiestos de Kubernetes y recibir el confirmación de `rollout status`, el pipeline ejecuta un script interno de **Smoke Tests**. Esto consiste en abrir túneles efímeros locales (`kubectl port-forward`) e iterar sobre los puertos internos de cada servicio para hacer una llamada HTTP GET a los actuadores (`/actuator/health`). Si algún componente responde distinto a `200 OK`, el pipeline marca un fallo, deteniendo cualquier acción subsiguiente.
