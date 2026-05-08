@@ -14,10 +14,10 @@ Se implementó una estrategia de integración continua y despliegue continuo (CI
 
 A continuación se muestran los pantallazos relevantes de la configuración en Jenkins:
 
-![Pipelines DEV](/Users/vasamo/.gemini/antigravity/brain/09292d51-570f-4600-81e9-9cc98a1eba95/pipelines_dev.jpeg)
-![Pipeline STAGE](/Users/vasamo/.gemini/antigravity/brain/09292d51-570f-4600-81e9-9cc98a1eba95/pipeline_stage.png)
-![Pipeline PROD](/Users/vasamo/.gemini/antigravity/brain/09292d51-570f-4600-81e9-9cc98a1eba95/pipeline_prod.png)
-![All Pipelines](/Users/vasamo/.gemini/antigravity/brain/09292d51-570f-4600-81e9-9cc98a1eba95/all_pipelines_jenkins.png)
+![Pipelines DEV](evidences/pipelines_dev.jpeg)
+![Pipeline STAGE](evidences/pipeline_stage.png)
+![Pipeline PROD](evidences/pipeline_prod.png)
+![All Pipelines](evidences/all_pipelines_jenkins.png)
 
 ### Estructura General de las Pipelines
 
@@ -78,7 +78,6 @@ Deploy Microservices  (kubectl apply + rollout status de los 6 servicios)
 System & Smoke Tests  (Port-forward y validación de endpoints /actuator/health)
 ```
 
-> [!NOTE]
 > **Detalle clave de configuración:** El pipeline ejecuta los builds con el parámetro `-Dorg.gradle.jvmargs='-Xmx512m'` para evitar problemas de memoria OutOfMemory (OOM) en los nodos de Jenkins durante el proceso de construcción concurrente de microservicios.
 
 <details>
@@ -235,16 +234,16 @@ Las ejecuciones de los pipelines fueron exitosas y lograron desplegar correctame
 ### Capturas de Resultados y Pods
 
 - **Pruebas y Smoke Tests Exitosos:**
-![Tests Pasados](/Users/vasamo/.gemini/antigravity/brain/09292d51-570f-4600-81e9-9cc98a1eba95/test_pass.jpeg)
+![Tests Pasados](evidences/test_pass.jpeg)
 
 - **Pods Ejecutándose en el Entorno DEV / Local:**
-![Pods Dev](/Users/vasamo/.gemini/antigravity/brain/09292d51-570f-4600-81e9-9cc98a1eba95/pods_dev.jpeg)
+![Pods Dev](evidences/pods_dev.jpeg)
 
 - **Pods Ejecutándose en el Entorno STAGE (`taller2-stage`):**
-![Pods Stage](/Users/vasamo/.gemini/antigravity/brain/09292d51-570f-4600-81e9-9cc98a1eba95/pods_stage.png)
+![Pods Stage](evidences/pods_stage.png)
 
 - **Pods Ejecutándose en el Entorno PROD (`taller2-prod`):**
-![Pods Prod](/Users/vasamo/.gemini/antigravity/brain/09292d51-570f-4600-81e9-9cc98a1eba95/pods_prod.png)
+![Pods Prod](evidences/pods_prod.png)
 
 Todos los pods se encuentran en estado `Running` o `Completed` (para los jobs de inicialización), sin reinicios (CrashLoopBackOff).
 
@@ -256,7 +255,7 @@ Se ejecutaron pruebas de rendimiento utilizando **Locust** apuntando al Gateway 
 
 ### Resumen de Resultados
 
-![Resultados de Locust](/Users/vasamo/.gemini/antigravity/brain/09292d51-570f-4600-81e9-9cc98a1eba95/locust_tests.jpeg)
+![Resultados de Locust](evidences/locust_tests.jpeg)
 
 | Métrica Global | Resultado |
 | :--- | :--- |
@@ -276,6 +275,5 @@ Se ejecutaron pruebas de rendimiento utilizando **Locust** apuntando al Gateway 
 - **Identity (Map):** Tiempos aceptables con un promedio de 60.8ms.
 - **Notification (Health) y Promotion (User Circles):** Tiempos de respuesta muy bajos, ambos promediando por debajo de los 56ms.
 
-> [!TIP]
 > **Conclusión del Análisis:**
 > La arquitectura responde con alta eficiencia y resiliencia bajo carga moderada. El **100% de éxito en las peticiones (tasa de error del 0%)** y el throughput sostenido de **6 req/s**, con picos de tiempos de respuesta por debajo de los 400ms para las operaciones más complejas, demuestra que el despliegue es altamente estable y los recursos asignados en el clúster a los pods son adecuados.
