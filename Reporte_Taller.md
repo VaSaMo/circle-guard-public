@@ -78,7 +78,9 @@ Deploy Microservices  (kubectl apply + rollout status de los 6 servicios)
 System & Smoke Tests  (Port-forward y validación de endpoints /actuator/health)
 ```
 
-> **Detalle clave de configuración:** El pipeline ejecuta los builds con el parámetro `-Dorg.gradle.jvmargs='-Xmx512m'` para evitar problemas de memoria OutOfMemory (OOM) en los nodos de Jenkins durante el proceso de construcción concurrente de microservicios.
+> **Detalles clave de configuración:**
+> - **Gestión de Memoria:** El pipeline ejecuta los builds con el parámetro `-Dorg.gradle.jvmargs='-Xmx512m'` para evitar problemas de memoria OutOfMemory (OOM) en los nodos de Jenkins durante el proceso de construcción concurrente.
+> - **Imágenes Docker Optimizadas:** Todos los `Dockerfile` de los microservicios implementan un enfoque **Multi-stage Build**. En una primera etapa (`builder`) se extraen las capas del JAR de Spring Boot (`layertools`), y en la etapa final se copian de manera separada (dependencias, aplicación) hacia una imagen ligera `eclipse-temurin:21-jre-alpine` que usa `JarLauncher`. Esto optimiza significativamente la caché de Docker, los tiempos de construcción de Jenkins y el tamaño de la imagen final en el clúster.
 
 <details>
 <summary><b>Ver código fuente de Jenkinsfile (DEV - Auth Service)</b></summary>
